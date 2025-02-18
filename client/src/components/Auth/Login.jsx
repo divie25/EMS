@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+// import { url } from '../../config/config';
+import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
+import { TextField, Typography } from '@mui/material';
 import { url } from '../config/config';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -15,8 +20,22 @@ const Login = () => {
 
         try {
             const response = await axios.post(url + '/api/auth/login', { email, password });
-            // Handle successful login (e.g., store token, redirect)
             console.log(response.data);
+
+            localStorage.setItem("user",JSON.stringify(response.data.user))
+
+            if(response.data.user.role==="environmental_officer"){
+            
+                navigate('/environmentofficer/dashboard');
+
+            }else if (response.data.user.role===""){
+
+            }else{
+                navigate('/dashboard');
+            }
+
+
+          
         } catch (err) {
             setError('Invalid email or password');
         } finally {
@@ -25,92 +44,33 @@ const Login = () => {
     };
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-                height: '100vh',
-                background: 'linear-gradient(135deg, #6a11cb, #2575fc)',
-                fontFamily: 'Arial, sans-serif',
-                color: '#fff',
-            }}
-        >
-            <h1>Environment Management System</h1>
-
-            <div
-                style={{
-                    background: '#fff',
-                    borderRadius: '10px',
-                    padding: '30px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                    width: '400px',
-                    color: '#333',
-                }}
-            >
-                <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#2575fc' }}>Login</h2>
-                <form onSubmit={handleLogin}>
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>Email:</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            style={{
-                                width: '100%',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                border: '1px solid #ccc',
-                            }}
-                        />
-                    </div>
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>Password:</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            style={{
-                                width: '100%',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                border: '1px solid #ccc',
-                            }}
-                        />
-                    </div>
-                    {error && (
-                        <p
-                            style={{
-                                color: 'red',
-                                marginBottom: '15px',
-                                textAlign: 'center',
-                            }}
-                        >
-                            {error}
-                        </p>
-                    )}
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            background: loading ? '#ccc' : '#2575fc',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: loading ? 'not-allowed' : 'pointer',
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        {loading ? 'Logging in...' : 'Login'}
-                    </button>
-                </form>
-            </div>
-        </div>
+        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh'}}>
+            <Row className="w-100 justify-content-center">
+                <Col xs={12} sm={8} md={6} lg={4}>
+                    <Card className="text-center" style={{ padding: '30px', borderRadius: '15px', boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)' }}>
+                        <Typography variant="h5" className="text-center" style={{ marginBottom: '20px', fontWeight: 'bold', color: '#333' }}>
+                            Environment Management System - Login
+                        </Typography>
+                        <Form onSubmit={handleLogin}>
+                            <Form.Group className="mb-3">
+                                <TextField fullWidth label="Email" variant="outlined" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <TextField fullWidth label="Password" variant="outlined" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                            </Form.Group>
+                            {error && (
+                                <Typography variant="body2" color="error" className="mb-3 text-center">
+                                    {error}
+                                </Typography>
+                            )}
+                            <Button type="submit" className="w-100" style={{ backgroundColor: '#6610f2', border: 'none', padding: '10px', fontSize: '16px', fontWeight: 'bold' }} disabled={loading}>
+                                {loading ? 'Logging in...' : 'Login'}
+                            </Button>
+                        </Form>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

@@ -1,131 +1,108 @@
 import React, { useEffect, useState } from 'react';
+import { Container, Card, Typography, CircularProgress } from '@mui/material';
+import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
-import { url } from '../config/config';
+
+const getAQIColor = (aqi) => {
+    if (aqi <= 50) return 'green';
+    if (aqi <= 100) return 'yellow';
+    if (aqi <= 150) return 'orange';
+    if (aqi <= 200) return 'red';
+    if (aqi <= 300) return 'purple';
+    return 'maroon';
+};
 
 const AirQuality = () => {
-    const dummyData = [
-        {
-            location: "City Center",
-            pm25: 35,
-            pm10: 50,
-            o3: 85,
-            timestamp: new Date().toISOString()
-        },
-        {
-            location: "Park Area",
-            pm25: 18,
-            pm10: 22,
-            o3: 90,
-            timestamp: new Date().toISOString()
-        }
-    ];
-
-    const [airQualityData, setAirQualityData] = useState(dummyData);
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchAirQualityData = async () => {
-            // try {
-            //     const response = await axios.get(url + '/api/data/air-quality');
-            //     setAirQualityData(response.data);
-            // } catch (err) {
-            //     setError('Error fetching air quality data');
-            // } finally {
-            //     setLoading(false);
-            // }
-            setLoading(false);
-        };
-
-        fetchAirQualityData();
+        axios.get('https://api.waqi.info/feed/here/?token=bd3de4735634557b12042b8446836ad11dc4a1e1')
+            .then(response => {
+                if (response.data.status === 'ok') {
+                    setData(response.data.data);
+                } else {
+                    setError('Failed to fetch air quality data');
+                }
+                setLoading(false);
+            })
+            .catch(() => {
+                setError('Error fetching data');
+                setLoading(false);
+            });
     }, []);
 
-    if (loading) return <div style={styles.loading}>Loading...</div>;
-    if (error) return <div style={styles.error}>{error}</div>;
-
-    const dataToDisplay = airQualityData || dummyData;
-
     return (
-        <div style={styles.container}>
-            <h2 style={styles.heading}>Air Quality Data</h2>
-            <ul style={styles.list}>
-                {dataToDisplay.map((data, index) => (
-                    
-                    <li key={index} style={styles.listItem}>
-                        <strong>Location:</strong> {data.location} <br />
-                        <strong>PM2.5:</strong> {data.pm25} µg/m³ <br />
-                        <strong>PM10:</strong> {data.pm10} µg/m³ <br />
-                        <strong>Ozone:</strong> {data.o3} µg/m³ <br />
-                        <strong>Timestamp:</strong> {new Date(data.timestamp).toLocaleString()}
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <Container style={{ marginTop: '20px', maxWidth: '800px', background: 'linear-gradient(to right, #74ebd5, #ACB6E5)', padding: '20px', borderRadius: '10px' }}>
+            <Typography variant="h4" align="center" gutterBottom style={{ fontWeight: 'bold', color: '#333' }}>
+                Air Quality Dashboard
+            </Typography>
+            {loading ? (
+                <CircularProgress style={{ display: 'block', margin: 'auto' }} />
+            ) : error ? (
+                <Typography variant="h6" color="error" align="center">{error}</Typography>
+            ) : (
+                <Row className="g-3">
+                    <Col md={6}>
+                        <Card sx={{ padding: '15px', textAlign: 'center', borderRadius: 2, boxShadow: 3 }}>
+                            <Typography variant="h6">📍 Location</Typography>
+                            <Typography variant="body1" color="textSecondary">{data.city.name}</Typography>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card sx={{ padding: '15px', textAlign: 'center', borderRadius: 2, boxShadow: 3 }}>
+                            <Typography variant="h6">🌎 AQI</Typography>
+                            <Typography variant="h5" sx={{ fontWeight: 'bold', color: getAQIColor(data.aqi) }}>
+                                {data.aqi}
+                            </Typography>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card sx={{ padding: '15px', textAlign: 'center', borderRadius: 2, boxShadow: 3 }}>
+                            <Typography variant="h6">🌬️ Dominant Pollutant</Typography>
+                            <Typography variant="body1">{data.dominentpol.toUpperCase()}</Typography>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card sx={{ padding: '15px', textAlign: 'center', borderRadius: 2, boxShadow: 3 }}>
+                            <Typography variant="h6">🌡️ Temperature</Typography>
+                            <Typography variant="body1">{data.iaqi.t?.v} °C</Typography>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card sx={{ padding: '15px', textAlign: 'center', borderRadius: 2, boxShadow: 3 }}>
+                            <Typography variant="h6">💧 Humidity</Typography>
+                            <Typography variant="body1">{data.iaqi.h?.v} %</Typography>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card sx={{ padding: '15px', textAlign: 'center', borderRadius: 2, boxShadow: 3 }}>
+                            <Typography variant="h6">🌬️ Wind Speed</Typography>
+                            <Typography variant="body1">{data.iaqi.w?.v} m/s</Typography>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card sx={{ padding: '15px', textAlign: 'center', borderRadius: 2, boxShadow: 3 }}>
+                            <Typography variant="h6">📏 Pressure</Typography>
+                            <Typography variant="body1">{data.iaqi.p?.v} hPa</Typography>
+                        </Card>
+                    </Col>
+                    <Col md={12}>
+                        <Card sx={{ padding: '20px', textAlign: 'center', borderRadius: 2, boxShadow: 3, marginTop: '20px' }}>
+                            <Typography variant="h6">📅 Future AQI Forecast</Typography>
+                            {data.forecast.daily.pm25.map((day, index) => (
+                                <Typography key={index} variant="body1">
+                                    {day.day}: {day.avg} (Max: {day.max}, Min: {day.min})
+                                </Typography>
+                            ))}
+                        </Card>
+                    </Col>
+                </Row>
+            )}
+        </Container>
     );
 };
 
-// Enhanced Inline styles
-const styles = {
-    container: {
-        padding: '20px',
-        backgroundColor: '#f0f8ff',
-        borderRadius: '12px',
-        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
-        fontFamily: 'Arial, sans-serif',
-        transition: 'all 0.3s ease-in-out',
-        marginTop: '20px',
-        maxWidth: '900px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-    },
-    heading: {
-        color: '#333',
-        textAlign: 'center',
-        fontSize: '28px',
-        marginBottom: '20px',
-        fontWeight: '600',
-        animation: 'fadeIn 1s ease-out',
-    },
-    list: {
-        listStyleType: 'none',
-        padding: 0,
-        margin: 0,
-    },
-    listItem: {
-        backgroundColor: '#fff',
-        borderRadius: '10px',
-        padding: '20px',
-        marginBottom: '15px',
-        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-        cursor: 'pointer',
-    },
-    loading: {
-        textAlign: 'center',
-        fontSize: '20px',
-        fontWeight: 'bold',
-        color: '#0073e6',
-    },
-    error: {
-        textAlign: 'center',
-        fontSize: '20px',
-        fontWeight: 'bold',
-        color: '#ff4d4d',
-    },
-};
-
-// CSS for hover and animation effects
-const stylesForHoverEffect = `
-    @keyframes fadeIn {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-    }
-
-    .listItem:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        background-color: #e6f7ff;
-    }
-`;
-
 export default AirQuality;
+ 

@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { url } from '../config/config';
+import {
+    TextField,
+    Button,
+    Select,
+    MenuItem,
+    InputLabel,
+    FormControl,
+    Card,
+    CardContent,
+    Typography,
+    Grid,
+    CircularProgress
+} from '@mui/material';
 
 const ReportIncident = () => {
-
     const user = {
         _id: "63d59f1f2e3b0b0a0c8b5cd3",
         name: "John Doe",
         email: "johndoe@example.com"
-      }
-      
+    };
 
     const [incidentDetails, setIncidentDetails] = useState({
         title: '',
@@ -18,24 +29,66 @@ const ReportIncident = () => {
         severity: ''
     });
 
+    const [image, setImage] = useState(null);
+    const [loadingLocation, setLoadingLocation] = useState(false);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setIncidentDetails({
-            ...incidentDetails,
-            [name]: value,
-           
-        });
+        setIncidentDetails(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    // Handle Image Selection
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+        }
+    };
+
+    // Fetch Live Location
+    const fetchLocation = () => {
+        if (navigator.geolocation) {
+            setLoadingLocation(true);
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    setIncidentDetails(prevState => ({
+                        ...prevState,
+                        location: `${latitude}, ${longitude}`
+                    }));
+                    setLoadingLocation(false);
+                },
+                (error) => {
+                    alert('Error fetching location: ' + error.message);
+                    setLoadingLocation(false);
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by this browser.');
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('title', incidentDetails.title);
+        formData.append('description', incidentDetails.description);
+        formData.append('location', incidentDetails.location);
+        formData.append('severity', incidentDetails.severity);
+        formData.append('reportedBy', user._id);
+        if (image) {
+            formData.append('image', image);
+        }
+
         try {
+            const response = await axios.post(url + '/api/incidents/report', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
 
-            const data ={
-                ...incidentDetails, reportedBy:user._id
-            }
-
-            const response = await axios.post(url + '/api/incidents/report', data);
             if (response.status === 201) {
                 alert('Incident reported successfully!');
                 setIncidentDetails({
@@ -44,6 +97,7 @@ const ReportIncident = () => {
                     location: '',
                     severity: ''
                 });
+                setImage(null);
             }
         } catch (error) {
             console.error('Error reporting incident:', error);
@@ -52,143 +106,89 @@ const ReportIncident = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <h2 style={styles.heading}>Report an Environmental Incident</h2>
-            <form onSubmit={handleSubmit} style={styles.form}>
-                <div style={styles.inputGroup}>
-                    <label style={styles.label}>Title:</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={incidentDetails.title}
-                        onChange={handleChange}
-                        required
-                        style={styles.input}
-                    />
-                </div>
-                <div style={styles.inputGroup}>
-                    <label style={styles.label}>Description:</label>
-                    <textarea
-                        name="description"
-                        value={incidentDetails.description}
-                        onChange={handleChange}
-                        required
-                        style={styles.textarea}
-                    />
-                </div>
-                <div style={styles.inputGroup}>
-                    <label style={styles.label}>Location:</label>
-                    <input
-                        type="text"
-                        name="location"
-                        value={incidentDetails.location}
-                        onChange={handleChange}
-                        required
-                        style={styles.input}
-                    />
-                </div>
-                <div style={styles.inputGroup}>
-                    <label style={styles.label}>Severity:</label>
-                    <select
-                        name="severity"
-                        value={incidentDetails.severity}
-                        onChange={handleChange}
-                        required
-                        style={styles.select}
-                    >
-                        <option value="">Select severity</option>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-                <button type="submit" style={styles.submitButton}>Report Incident</button>
-            </form>
-        </div>
+        <Card sx={{ maxWidth: 600, mx: 'auto', mt: 5, p: 3, boxShadow: 3, borderRadius: 2 }}>
+            <CardContent>
+                <Typography variant="h5" sx={{ textAlign: 'center', mb: 2 }}>
+                    Report an Environmental Incident
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Title"
+                                name="title"
+                                value={incidentDetails.title}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Description"
+                                name="description"
+                                value={incidentDetails.description}
+                                onChange={handleChange}
+                                required
+                                multiline
+                                rows={3}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                            <TextField
+                                fullWidth
+                                label="Location"
+                                name="location"
+                                value={incidentDetails.location}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="secondary"
+                                onClick={fetchLocation}
+                                disabled={loadingLocation}
+                                sx={{ height: '100%' }}
+                            >
+                                {loadingLocation ? <CircularProgress size={24} /> : "Use Live Location 📍"}
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl fullWidth>
+                                <InputLabel>Severity</InputLabel>
+                                <Select
+                                    name="severity"
+                                    value={incidentDetails.severity}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <MenuItem value="low">Low</MenuItem>
+                                    <MenuItem value="medium">Medium</MenuItem>
+                                    <MenuItem value="high">High</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" component="label" fullWidth>
+                                Upload Image (Optional)
+                                <input type="file" accept="image/*" hidden onChange={handleImageChange} />
+                            </Button>
+                            {image && <Typography variant="body2" sx={{ mt: 1 }}>{image.name}</Typography>}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button type="submit" variant="contained" color="primary" fullWidth>
+                                Report Incident
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </CardContent>
+        </Card>
     );
 };
-
-// Inline styles
-const styles = {
-    container: {
-        padding: '20px',
-        background: 'linear-gradient(to right,rgb(84, 103, 105),rgb(123, 139, 123))',
-        borderRadius: '10px',
-        boxShadow: '0px 4px 8px rgba(119, 94, 94, 0.1)',
-        fontFamily: 'Arial, sans-serif',
-        maxWidth: '600px',
-        margin: '40px auto',
-    },
-    heading: {
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: '28px',
-        fontWeight: '600',
-        marginBottom: '20px',
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '15px',
-    },
-    inputGroup: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '5px',
-    },
-    label: {
-        color: '#fff',
-        fontSize: '16px',
-        fontWeight: '500',
-    },
-    input: {
-        padding: '10px',
-        fontSize: '16px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        outline: 'none',
-        transition: 'border-color 0.3s',
-    },
-    textarea: {
-        padding: '10px',
-        fontSize: '16px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        outline: 'none',
-        resize: 'vertical',
-        transition: 'border-color 0.3s',
-    },
-    select: {
-        padding: '10px',
-        fontSize: '16px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        outline: 'none',
-        transition: 'border-color 0.3s',
-    },
-    submitButton: {
-        padding: '12px',
-        fontSize: '18px',
-        backgroundColor: '#4caf50',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease-in-out',
-    },
-    submitButtonHover: {
-        backgroundColor: '#45a049',
-    }
-};
-
-// CSS for hover effect for inputs and submit button
-const hoverEffectStyle = `
-    .input:hover, .textarea:hover, .select:hover {
-        border-color: #4caf50;
-    }
-    .submitButton:hover {
-        background-color: #45a049;
-    }
-`;
 
 export default ReportIncident;

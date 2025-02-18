@@ -3,14 +3,22 @@ const Incident = require('../models/Incident');
 // Report a new incident
 exports.reportIncident = async (req, res) => {
     try {
-        const { title, description, location, status,reportedBy } = req.body;
-        console.log(req.body);
-        
-        const newIncident = new Incident({ title, description, location, status,reportedBy });
+        const { title, description, location, severity, reportedBy } = req.body;
+        const imagePath = req.file ? req.file.path : null;
+
+        const newIncident = new Incident({
+            title,
+            description,
+            location,
+            severity,
+            image: imagePath,
+            reportedBy
+        });
+
         await newIncident.save();
-        res.status(201).json({ message: 'Incident reported successfully', incident: newIncident });
+        res.status(201).json({ message: "Incident reported successfully!" });
     } catch (error) {
-        res.status(500).json({ message: 'Error reporting incident', error: error.message });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -28,7 +36,9 @@ exports.getIncidents = async (req, res) => {
 exports.updateIncident = async (req, res) => {
     try {
         const { id } = req.params;
-        const { status } = req.body;
+        const { status , role} = req.body;
+        console.log(role?role:"no");
+        
         const updatedIncident = await Incident.findByIdAndUpdate(id, { status }, { new: true });
         if (!updatedIncident) {
             return res.status(404).json({ message: 'Incident not found' });

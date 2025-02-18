@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 // import { url } from '../../config/config';
 import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
 import { TextField, Typography } from '@mui/material';
-import { url } from '../config/config';
+import { url } from '../../config/config';
 
-const Register = () => {
+const AdminRegister = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
@@ -23,7 +23,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(url + '/api/auth/register', formData);
+            const response = await axios.post(url + '/api/auth/register', {...formData,role:"admin"});
             console.log(response.data);
             if (response.data.message === 'User registered successfully') {
                 alert('User registered successfully');
@@ -35,7 +35,7 @@ const Register = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh', background: 'linear-gradient(135deg, #007bff, #6610f2)' }}>
+        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
             <Row className="w-100 justify-content-center">
                 <Col xs={12} sm={8} md={6} lg={4}>
                     <Card className="text-center" style={{ padding: '30px', borderRadius: '15px', boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)' }}>
@@ -63,4 +63,6 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default AdminRegister;
+
+

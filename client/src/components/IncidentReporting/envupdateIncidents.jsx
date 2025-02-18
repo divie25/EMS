@@ -12,14 +12,25 @@ import {
   Chip,
   TextField,
   InputAdornment,
+  MenuItem,
+  Select,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PublicIcon from "@mui/icons-material/Public";
 import SearchIcon from "@mui/icons-material/Search";
 
-const IncidentList = () => {
+const EnvUpdateIncident = () => {
   const [incidents, setIncidents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIncident, setSelectedIncident] = useState(null);
+  const [newStatus, setNewStatus] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const user =JSON.parse( localStorage.getItem("user"))
 
   useEffect(() => {
     const fetchIncidents = async () => {
@@ -38,6 +49,47 @@ const IncidentList = () => {
   const filteredIncidents = incidents.filter((incident) =>
     incident.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Open dialog to update status
+  const handleOpenDialog = (incident) => {
+    setSelectedIncident(incident);
+    setNewStatus(incident.status);
+    setOpenDialog(true);
+  };
+
+  // Close dialog
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedIncident(null);
+  };
+
+  // Handle status update
+  const handleUpdateStatus = async () => {
+    if (!selectedIncident) return;
+
+    try {
+        console.log("clicked",newStatus);
+        
+      const response = await axios.put(url + `/api/incidents/${selectedIncident._id}`, {
+        status: newStatus,role:user.role
+      });
+
+      console.log(response);
+      
+
+      if (response.status === 200) {
+        setIncidents((prev) =>
+          prev.map((incident) =>
+            incident._id === selectedIncident._id ? { ...incident, status: newStatus } : incident
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
 
   return (
     <Paper
@@ -113,8 +165,10 @@ const IncidentList = () => {
                       backgroundColor:
                         incident.status === "Resolved"
                           ? "#4caf50"
-                          : incident.status === "Investigating"
+                          : incident.status === "In Progress"
                           ? "#ff9800"
+                          : incident.status === "Closed"
+                          ? "#2c3e50"
                           : "#e74c3c",
                       color: "#fff",
                     }}
@@ -130,6 +184,16 @@ const IncidentList = () => {
                     sx={{ marginTop: 2, textTransform: "none" }}
                   >
                     View Location
+                  </Button>
+
+                  {/* Update Status Button */}
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleOpenDialog(incident)}
+                    sx={{ marginTop: 2, textTransform: "none", marginLeft: 1 }}
+                  >
+                    Update Status
                   </Button>
 
                   {/* Display Uploaded Image (if available) */}
@@ -160,8 +224,33 @@ const IncidentList = () => {
           </Typography>
         )}
       </Grid>
+
+      {/* Status Update Dialog */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Update Incident Status</DialogTitle>
+        <DialogContent>
+          <Select
+            fullWidth
+            value={newStatus}
+            onChange={(e) => setNewStatus(e.target.value)}
+          >
+            <MenuItem value="Reported">Reported</MenuItem>
+            <MenuItem value="In Progress">In Progress</MenuItem>
+            <MenuItem value="Resolved">Resolved</MenuItem>
+            <MenuItem value="Closed">Closed</MenuItem>
+          </Select>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleUpdateStatus} color="secondary" variant="contained">
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 };
 
-export default IncidentList;
+export default EnvUpdateIncident;

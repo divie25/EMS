@@ -4,7 +4,7 @@
   "description": "Backend for the Environment Management System using MERN stack.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {
@@ -15,12 +15,13 @@
     "dotenv": "^8.6.0",
     "express": "^4.21.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.9"
+    "mongoose": "^5.10.9",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "chai": "^5.1.2",
     "mocha": "^11.1.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.22"
   },
   "author": "Your Name",
   "license": "MIT"
