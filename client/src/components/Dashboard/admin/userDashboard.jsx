@@ -1,47 +1,20 @@
 
 import Notifications from '../Notifications';
 import AirQuality from '../../EnvironmentalData/AirQuality';
-
 import ReportIncident from '../../IncidentReporting/ReportIncident';
-import IncidentList from '../../IncidentReporting/IncidentList';
-import WasteSchedule from '../../WasteManagement/WasteSchedule';
 import RecyclingCenters from '../../WasteManagement/RecyclingCenters';
 import Parks from '../../ResourceManagement/Parks';
-
-import TreePlanting from '../../GreenInitiatives/TreePlanting';
-
 import Articles from '../../AwarenessCampaigns/Articles';
 import Videos from '../../AwarenessCampaigns/Videos';
 import Quizzes from '../../AwarenessCampaigns/Quizzes';
-// import Analytics from '../dashboard/Analytics';
-// import Notifications from '../dashboard/Notifications';
-// import Overview from '../dashboard/Overview';
-// import AirQuality from '../dashboard/AirQuality';
-// import WaterQuality from '../dashboard/WaterQuality';
-// import NoisePollution from '../dashboard/NoisePollution';
-// import ReportIncident from '../dashboard/ReportIncident';
-// import IncidentList from '../dashboard/IncidentList';
-// import WasteSchedule from '../dashboard/WasteSchedule';
-// import RecyclingCenters from '../dashboard/RecyclingCenters';
-// import Parks from '../dashboard/Parks';
-// import WaterBodies from '../dashboard/WaterBodies';
-// import TreePlanting from '../dashboard/TreePlanting';
-// import CleanUpCampaigns from '../dashboard/CleanUpCampaigns';
-// import Articles from '../dashboard/Articles';
-// import Videos from '../dashboard/Videos';
-// import Quizzes from '../dashboard/Quizzes';
-
-
-
-
-
 import React, { useState } from 'react';
-import { Container, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Box } from '@mui/material';
+import { Container,  Drawer, List, ListItem, ListItemText, Box } from '@mui/material';
 import { Col, Row } from 'react-bootstrap';
 import MultiLocationAQI from '../../EnvironmentalData/Multilocation';
+import EnvUpdateIncident from '../../IncidentReporting/envupdateIncidents';
 
 
-const UserDashboard = () => {
+const AdminDashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState(<AirQuality />);
 
     const menuItems = [
@@ -49,11 +22,9 @@ const UserDashboard = () => {
         { text: 'Air Quality', component: <AirQuality /> },//MultiLocationAQI4
         { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
         { text: 'Report Incident', component: <ReportIncident /> },
-        { text: 'Incident List', component: <IncidentList /> },
-        { text: 'Waste Schedule', component: <WasteSchedule /> },
+        { text: 'Incident List', component: <EnvUpdateIncident /> },
         { text: 'Recycling Centers', component: <RecyclingCenters /> },
         { text: 'Parks', component: <Parks /> },
- 
         { text: 'Articles', component: <Articles /> },
         { text: 'Videos', component: <Videos /> },
         { text: 'Quizzes', component: <Quizzes /> }
@@ -82,7 +53,7 @@ const UserDashboard = () => {
     );
 };
 
-export default UserDashboard;
+export default AdminDashboard;
 
 
 

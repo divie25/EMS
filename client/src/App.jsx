@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Homepage from './page/home';
-import Navbar from './components/Navbar/Navbar';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -16,11 +16,13 @@ import AdminRegister from './components/Auth/admin/adminregister';
 
 import UserDashboard from './components/Dashboard/user/userDashboard';
 import EnvDashboard from './components/Dashboard/envofficeDas/userDashboard';
+import AdminDashboard from './components/Dashboard/admin/userDashboard';
+import CustomNavbar from './components/Navbar/Navbar';
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      <CustomNavbar />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
@@ -33,14 +35,14 @@ function App() {
         <Route path="/environmentofficer">
           <Route path="register" element={<EnvOfficeRegister />} />
           <Route path="dashboard" element={<EnvDashboard />} />
-          //EnvDashboard
+         
         
         </Route>
 
         {/* Admin Routes */}
         <Route path="/admin">
           <Route path="register" element={<AdminRegister />} />
-          {/* <Route path="dashboard" element={<AdminDashboard />} /> */}
+          <Route path="dashboard" element={<AdminDashboard />} />
 
          
         </Route>

@@ -24,7 +24,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import SearchIcon from "@mui/icons-material/Search";
 import { Form } from "react-bootstrap";
 
-const EnvUpdateIncident = () => {
+const AdminUpdateIncident = () => {
   const [incidents, setIncidents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIncident, setSelectedIncident] = useState(null);
@@ -254,4 +254,4 @@ const EnvUpdateIncident = () => {
   );
 };
 
-export default EnvUpdateIncident;
+export default AdminUpdateIncident;

@@ -1,69 +1,78 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Typography, Button, Box } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 
-const Navbar = () => {
-  const navStyle = {
-    backgroundColor: '#4CAF50',
-    padding: '10px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    color: '#fff',
-  };
 
-  const linkStyle = {
-    textDecoration: 'none',
-    color: '#fff',
-    margin: '0 10px',
-  };
+const user=JSON.parse(localStorage.getItem("user"))
+const navItems = [
+  { path: '/', label: 'Home' },
+  { path: '/analytics', label: 'Analytics' },
 
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/analytics', label: 'Analytics' },
-    { path: '/articles', label: 'Articles' },
-    { path: '/events', label: 'Events' },
-    { path: '/contact', label: 'Contact' },
-    { path: '/about', label: 'About' },
-  ];
+  {path:user?.role === "admin" ? "/admin/dashboard" : user?.role === "envofficer" ? "/environmentofficer/dashboard" : "/dashboard", label:"Dashboard"}  
+];
 
-  const isLoggedIn = false; // Replace with actual authentication logic
-  const userName = "John Doe"; // Replace with actual user data
+
+
+
+const userName =user?.username 
+
+const CustomNavbar = () => {
+
+
+  const logout=()=>{
+         localStorage.removeItem("user")
+
+         window.location.reload()
+  }
 
   return (
-    <nav style={navStyle}>
-      <h1 style={{ margin: 0 }}>EcoApp</h1>
-      <div>
-        {navItems.map((item) => (
-          <Link key={item.path} to={item.path} style={linkStyle}>
-            {item.label}
-          </Link>
-        ))}
-        {isLoggedIn ? (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span style={{ marginRight: '10px' }}>Welcome, {userName}</span>
-            <button
-              style={{
-                padding: '5px 10px',
-                backgroundColor: '#ff5722',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-              }}
-              onClick={() => alert('Logged out successfully!')}
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div>
-            <Link to="/login" style={{ ...linkStyle, marginRight: '10px' }}>Login</Link>
-            <Link to="/register" style={linkStyle}>Register</Link>
-          </div>
-        )}
-      </div>
-    </nav>
+    <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          EcoApp
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <MenuIcon style={{ color: '#fff' }} />
+        </Navbar.Toggle>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {navItems.map((item) => (
+              <Nav.Link as={Link} to={item.path} key={item.path}>
+                {item.label}
+              </Nav.Link>
+            ))}
+          </Nav>
+          <Box display="flex" alignItems="center">
+            {userName ? (
+              <>
+                <Typography variant="body1" color="white" sx={{ marginRight: 2 }}>
+                  Welcome, {userName}
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={logout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outlined" color="primary" as={Link} to="/login" sx={{ marginRight: 1 }}>
+                  Login
+                </Button>
+                <Button variant="contained" color="success" as={Link} to="/register">
+                  Register
+                </Button>
+              </>
+            )}
+          </Box>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default CustomNavbar;

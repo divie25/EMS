@@ -16,11 +16,7 @@ import {
 } from '@mui/material';
 
 const ReportIncident = () => {
-    const user = {
-        _id: "63d59f1f2e3b0b0a0c8b5cd3",
-        name: "John Doe",
-        email: "johndoe@example.com"
-    };
+  const user = JSON.parse(localStorage.getItem('user'));
 
     const [incidentDetails, setIncidentDetails] = useState({
         title: '',
@@ -79,7 +75,7 @@ const ReportIncident = () => {
         formData.append('description', incidentDetails.description);
         formData.append('location', incidentDetails.location);
         formData.append('severity', incidentDetails.severity);
-        formData.append('reportedBy', user._id);
+        formData.append('reportedBy', user.id);
         if (image) {
             formData.append('image', image);
         }
