@@ -18,6 +18,10 @@ import UserDashboard from './components/Dashboard/user/userDashboard';
 import EnvDashboard from './components/Dashboard/envofficeDas/userDashboard';
 import AdminDashboard from './components/Dashboard/admin/userDashboard';
 import CustomNavbar from './components/Navbar/Navbar';
+import ResourceForm from './components/ResourceManagement/Resourceform';
+import UserResourcePage from './components/ResourceManagement/userresourcepage';
+import AdminResourcePage from './components/ResourceManagement/AdminResourcepage';
+import OfficerResourcePage from './components/ResourceManagement/offiecerResourcepage';
 
 function App() {
   return (
@@ -35,17 +39,29 @@ function App() {
         <Route path="/environmentofficer">
           <Route path="register" element={<EnvOfficeRegister />} />
           <Route path="dashboard" element={<EnvDashboard />} />
-          
-        
+
         </Route>
 
         {/* Admin Routes */}
         <Route path="/admin">
+          {/*  */}
           <Route path="register" element={<AdminRegister />} />
           <Route path="dashboard" element={<AdminDashboard />} />
 
-         
+
         </Route>
+
+
+        <Route path="test" element={<ResourceForm />} />
+        <Route path="test1" element={<UserResourcePage />} />
+        <Route path="test2" element={<AdminResourcePage />} />
+        <Route path="test3" element={<OfficerResourcePage />} />
+
+        {/* ResourceForm */}
+        {/* UserResourcePage */}
+        {/* AdminResourcePage */}
+        {/* OfficerResourcePage */}
+
       </Routes>
     </BrowserRouter>
   );

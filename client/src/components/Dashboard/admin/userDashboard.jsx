@@ -12,6 +12,8 @@ import { Container,  Drawer, List, ListItem, ListItemText, Box } from '@mui/mate
 import { Col, Row } from 'react-bootstrap';
 import MultiLocationAQI from '../../EnvironmentalData/Multilocation';
 import EnvUpdateIncident from '../../IncidentReporting/envupdateIncidents';
+import AdminResourcePage from '../../ResourceManagement/AdminResourcepage';
+import ForestResources from '../../ResourceManagement/ForestResources';
 
 
 const AdminDashboard = () => {
@@ -19,13 +21,13 @@ const AdminDashboard = () => {
 
     const menuItems = [
         { text: 'Notifications', component: <Notifications /> },
-        { text: 'Air Quality', component: <AirQuality /> },//MultiLocationAQI4
+        { text: 'Air Quality', component: <AirQuality /> },//AdminResourcePage
         { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
         { text: 'Report Incident', component: <ReportIncident /> },
         { text: 'Incident List', component: <EnvUpdateIncident /> },
-        { text: 'Recycling Centers', component: <RecyclingCenters /> },
+        { text: 'Resource management', component: <AdminResourcePage /> },
         { text: 'Parks', component: <Parks /> },
-        { text: 'Articles', component: <Articles /> },
+        { text: 'Forests', component: <ForestResources /> },
         { text: 'Videos', component: <Videos /> },
         { text: 'Quizzes', component: <Quizzes /> }
     ];

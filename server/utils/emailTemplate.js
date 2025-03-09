@@ -27,7 +27,7 @@ const incidentUpdateNotification = (incidentTitle, description,location, newStat
         <p><strong>Updated By Email:</strong> ${fromEmail}</p>
   
         <p style="text-align: center; margin-top: 20px;">
-          <a href="${process.env.FRONTEND_URL}/incident-dashboard" 
+          <a href="${process.env.FRONTEND_URL}dashboard" 
              style="display: inline-block; background-color: #008080; color: #fff; font-size: 18px; font-family: 'Arial', sans-serif; text-decoration: none; padding: 10px 20px; border-radius: 5px; border: 2px solid #008080; transition: background-color 0.3s ease-in-out;">
             Go to Dashboard
           </a>
