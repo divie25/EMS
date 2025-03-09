@@ -8,6 +8,8 @@ router.get('/', resourceController.getAllResources);
 // Route to get a specific resource by ID
 router.get('/:id', resourceController.getResourceById);
 
+//get park resources
+router.get("/specific/:id",resourceController.getParkAllResources)
 // Route to create a new resource
 router.post('/', resourceController.createResource);
 
@@ -16,5 +18,7 @@ router.put('/:id', resourceController.updateResource);
 
 // Route to delete a resource by ID
 router.delete('/:id', resourceController.deleteResource);
+
+
 
 module.exports = router;

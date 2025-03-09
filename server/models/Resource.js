@@ -1,31 +1,17 @@
 const mongoose = require('mongoose');
 
-const resourceSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    type: {
-        type: String,
-        enum: ['park', 'water_body', 'forest'],
-        required: true
-    },
-    location: {
-        type: String,
-        required: true
-    },
-    area: {
-        type: Number,
-        required: true
-    },
-    maintenanceSchedule: {
-        type: Date,
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-});
+const ResourceSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    type: { type: String, enum: ['Park', 'Forest', 'Water Body'], required: true },
+    location: { type: String, required: true },
+    maintenanceStatus: { type: String, enum: ['Good', 'Average', 'Poor'], default: 'Good' },
+    biodiversityInfo: { type: String },
+    reportHistory: [{ 
+        date: { type: Date, default: Date.now },
+        status: String,
+        notes: String 
+    }],
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' }
+}, { timestamps: true });
 
-module.exports = mongoose.model('Resource', resourceSchema);
+module.exports = mongoose.model('Resource', ResourceSchema);

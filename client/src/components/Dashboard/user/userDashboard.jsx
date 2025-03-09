@@ -39,6 +39,9 @@ import React, { useState } from 'react';
 import { Container, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Box } from '@mui/material';
 import { Col, Row } from 'react-bootstrap';
 import MultiLocationAQI from '../../EnvironmentalData/Multilocation';
+import WaterBodies from '../../ResourceManagement/ForestResources';
+import ForestResources from '../../ResourceManagement/ForestResources';
+import UserResourcePage from '../../ResourceManagement/userresourcepage';
 
 
 const UserDashboard = () => {
@@ -50,13 +53,12 @@ const UserDashboard = () => {
         { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
         { text: 'Report Incident', component: <ReportIncident /> },
         { text: 'Incident List', component: <IncidentList /> },
-        { text: 'Waste Schedule', component: <WasteSchedule /> },
+        { text: 'Forests', component: <ForestResources /> },
         { text: 'Recycling Centers', component: <RecyclingCenters /> },
         { text: 'Parks', component: <Parks /> },
- 
         { text: 'Articles', component: <Articles /> },
         { text: 'Videos', component: <Videos /> },
-        { text: 'Quizzes', component: <Quizzes /> }
+        { text: 'Resource', component: <UserResourcePage /> }
     ];
 
     return (
