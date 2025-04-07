@@ -6,7 +6,7 @@ import Forecast from './forecast';
 import { getWeatherByCity, getForecastByCity } from './api';
 
 function MainWeather() {
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState('chennai');
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
 

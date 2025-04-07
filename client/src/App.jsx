@@ -23,6 +23,8 @@ import UserResourcePage from './components/ResourceManagement/userresourcepage';
 import AdminResourcePage from './components/ResourceManagement/AdminResourcepage';
 import OfficerResourcePage from './components/ResourceManagement/offiecerResourcepage';
 import MainWeather from './components/weather/api/Main';
+import TreeCoverDashboard from './components/greenInitative/greenDashboard';
+import TreeCoverLossModule from './components/greenInitative/treelast';
 
 function App() {
   return (
@@ -59,13 +61,13 @@ function App() {
         <Route path="test1" element={<UserResourcePage />} />
         <Route path="test2" element={<AdminResourcePage />} />
         <Route path="test3" element={<OfficerResourcePage />} />
-        <Route path="test4" element={<MainWeather />} />
+        <Route path="test4" element={<TreeCoverLossModule/>}/>   
 
         {/* ResourceForm */}
         {/* UserResourcePage */}
         {/* AdminResourcePage */}
         {/* OfficerResourcePage */}
-        
+        {/* / */}
 
       </Routes>
     </BrowserRouter>
