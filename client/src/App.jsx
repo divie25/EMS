@@ -22,6 +22,7 @@ import ResourceForm from './components/ResourceManagement/Resourceform';
 import UserResourcePage from './components/ResourceManagement/userresourcepage';
 import AdminResourcePage from './components/ResourceManagement/AdminResourcepage';
 import OfficerResourcePage from './components/ResourceManagement/offiecerResourcepage';
+import MainWeather from './components/weather/api/Main';
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="dashboard" element={<UserDashboard />} />
+        <Route path="/analytics" element={<MainWeather />} />
+        
 
 
         {/* Environmental Officer Routes */}
@@ -56,11 +59,13 @@ function App() {
         <Route path="test1" element={<UserResourcePage />} />
         <Route path="test2" element={<AdminResourcePage />} />
         <Route path="test3" element={<OfficerResourcePage />} />
+        <Route path="test4" element={<MainWeather />} />
 
         {/* ResourceForm */}
         {/* UserResourcePage */}
         {/* AdminResourcePage */}
         {/* OfficerResourcePage */}
+        
 
       </Routes>
     </BrowserRouter>
