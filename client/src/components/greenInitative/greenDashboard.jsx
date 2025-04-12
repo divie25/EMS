@@ -11,8 +11,15 @@ import {
   Cell,
 } from "recharts";
 import { DataGrid } from "@mui/x-data-grid";
-import Papa from "papaparse";
-import { Card, CardContent, Typography, Tabs, Tab, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Tabs,
+  Tab,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28CFE"];
 
@@ -20,24 +27,55 @@ export default function TreeCoverDashboard() {
   const [extentData, setExtentData] = useState([]);
   const [regionLoss, setRegionLoss] = useState([]);
   const [tab, setTab] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/metadata.csv") // Or replace with the correct file name
-      .then((res) => res.text())
+    fetch("https://data-api.globalforestwatch.org/v1/gfw-loss-summary?group=iso")
+      .then((res) => res.json())
       .then((data) => {
-        const parsed = Papa.parse(data, { header: true });
-        const filtered = parsed.data.filter(
-          (d) => d["umd_tree_cover_loss__ha"] && !isNaN(parseFloat(d["umd_tree_cover_loss__ha"]))
+        const rows = data.data.map((item) => ({
+          iso: item.iso,
+          umd_tree_cover_loss__ha: parseFloat(item.area__ha.toFixed(2)),
+          gfw_gross_emissions_co2e_all_gases__Mg: parseFloat(item.emissions__Mg.toFixed(2)),
+        }));
+
+        const filtered = rows.filter(
+          (d) =>
+            d.umd_tree_cover_loss__ha &&
+            !isNaN(d.umd_tree_cover_loss__ha)
         );
-        setExtentData(filtered);
-        setRegionLoss(filtered);
+
+        const sorted = [...filtered].sort(
+          (a, b) => b.umd_tree_cover_loss__ha - a.umd_tree_cover_loss__ha
+        );
+
+        setExtentData(sorted);
+        setRegionLoss(sorted.slice(0, 20));
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch data:", err);
+        setLoading(false);
       });
   }, []);
 
   const totalExtent = extentData.reduce(
-    (sum, row) => sum + parseFloat(row["umd_tree_cover_loss__ha"] || 0),
+    (sum, row) => sum + row.umd_tree_cover_loss__ha,
     0
   );
+
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ padding: 4 }}>
@@ -48,7 +86,7 @@ export default function TreeCoverDashboard() {
       <Box display="flex" gap={2} mb={4}>
         <Card sx={{ flex: 1, p: 2 }}>
           <CardContent>
-            <Typography variant="h6">Total Tree Cover Loss (2001)</Typography>
+            <Typography variant="h6">Total Tree Cover Loss (ha)</Typography>
             <Typography variant="h5" fontWeight="bold">
               {totalExtent.toLocaleString()} ha
             </Typography>
@@ -91,7 +129,10 @@ export default function TreeCoverDashboard() {
                 label
               >
                 {extentData.slice(0, 5).map((_, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
             </PieChart>

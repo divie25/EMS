@@ -9,10 +9,11 @@ const user=JSON.parse(localStorage.getItem("user"))
 const navItems = [
   { path: '/', label: 'Home' },
   { path: '/analytics', label: 'Analytics' },
-
-  {path:user?.role === "admin" ? "/admin/dashboard" : user?.role === "envofficer" ? "/environmentofficer/dashboard" : "/dashboard", label:"Dashboard"}  
+  { path: '/Treecoverloss', label: 'Treecoverloss' },
+  { path: '/Awareness', label: 'Awareness' },
+  { path: '/allquizzes', label: 'Quizzes' },
+  {path:user?.role === "admin" ? "/admin/dashboard" : user?.role === "envofficer" ? "/environmentofficer/dashboard" :user?.role==="public"? "/dashboard":"/", label:user?"Dashboard":""}  
 ];
-
 
 
 

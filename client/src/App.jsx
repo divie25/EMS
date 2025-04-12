@@ -5,6 +5,7 @@ import Register from './components/Auth/Register';
 import Homepage from './page/home';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.css'
 
 
 
@@ -25,6 +26,10 @@ import OfficerResourcePage from './components/ResourceManagement/offiecerResourc
 import MainWeather from './components/weather/api/Main';
 import TreeCoverDashboard from './components/greenInitative/greenDashboard';
 import TreeCoverLossModule from './components/greenInitative/treelast';
+import EnvironmentalDashboard from './components/EnvironmentNews/environmentnews';
+import AdminAddQuiz from './components/quize/quizeadmin';
+import TakeQuiz from './components/quize/usertakequize';
+import AllQuizzes from './components/quize/allQizes';
 
 function App() {
   return (
@@ -37,37 +42,26 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="dashboard" element={<UserDashboard />} />
         <Route path="/analytics" element={<MainWeather />} />
+        <Route path="/allquizzes" element={<AllQuizzes />} />
         
-
-
+        <Route path="takequiz/:id" element={<TakeQuiz />} /> 
+        
         {/* Environmental Officer Routes */}
         <Route path="/environmentofficer">
           <Route path="register" element={<EnvOfficeRegister />} />
           <Route path="dashboard" element={<EnvDashboard />} />
-
+          {/* <Route path="takequiz" element={<TakeQuiz />} />  */}
         </Route>
 
         {/* Admin Routes */}
         <Route path="/admin">
-          {/*  */}
           <Route path="register" element={<AdminRegister />} />
           <Route path="dashboard" element={<AdminDashboard />} />
-
-
+          <Route path="addquiz" element={<AdminAddQuiz />} />          
         </Route>
 
-
-        <Route path="test" element={<ResourceForm />} />
-        <Route path="test1" element={<UserResourcePage />} />
-        <Route path="test2" element={<AdminResourcePage />} />
-        <Route path="test3" element={<OfficerResourcePage />} />
-        <Route path="test4" element={<TreeCoverLossModule/>}/>   
-
-        {/* ResourceForm */}
-        {/* UserResourcePage */}
-        {/* AdminResourcePage */}
-        {/* OfficerResourcePage */}
-        {/* / */}
+        <Route path="Awareness" element={<EnvironmentalDashboard />} />
+        <Route path="Treecoverloss" element={<TreeCoverLossModule/>}/>  
 
       </Routes>
     </BrowserRouter>

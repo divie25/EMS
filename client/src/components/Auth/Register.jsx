@@ -35,7 +35,7 @@ const Register = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh', background: 'linear-gradient(135deg, #007bff, #6610f2)' }}>
+        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
             <Row className="w-100 justify-content-center">
                 <Col xs={12} sm={8} md={6} lg={4}>
                     <Card className="text-center" style={{ padding: '30px', borderRadius: '15px', boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)' }}>

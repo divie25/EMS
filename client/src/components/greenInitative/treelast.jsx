@@ -21,19 +21,15 @@ const TreeCoverLossModule = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://data-api.globalforestwatch.org/v1/gfw-loss-by-country")
+    fetch("https://restcountries.com/v3.1/all")
       .then((res) => res.json())
       .then((json) => {
-        const result = json.data;
-
-        // Convert and sort
-        const transformed = result
-          .map((d) => ({
-            iso: d.iso,
-            country: d.name,
-            loss_ha: d.area__ha || 0,
+        const transformed = json
+          .map((country) => ({
+            iso: country.cca3,
+            country: country.name.common,
+            loss_ha: Math.floor(Math.random() * 1000000), // Fake loss for demo
           }))
-          .filter((d) => d.loss_ha > 0)
           .sort((a, b) => b.loss_ha - a.loss_ha)
           .slice(0, 10); // Top 10
 
@@ -49,14 +45,15 @@ const TreeCoverLossModule = () => {
   return (
     <Box sx={{ padding: 4 }}>
       <Typography variant="h5" gutterBottom>
-        🌍 Top 10 Countries by Tree Cover Loss (ha)
+        🌍 Top 10 Countries by Tree Cover Loss (Simulated)
       </Typography>
 
       {loading ? (
         <CircularProgress />
       ) : (
         <>
-          <Box height={400} mb={4}>
+         <div style={{padding:"100px"}}>
+         <Box height={400} mb={4}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data}>
                 <XAxis dataKey="country" />
@@ -85,6 +82,7 @@ const TreeCoverLossModule = () => {
               </Box>
             </CardContent>
           </Card>
+         </div>
         </>
       )}
     </Box>
@@ -92,3 +90,4 @@ const TreeCoverLossModule = () => {
 };
 
 export default TreeCoverLossModule;
+// Show the top 10 countries that have experienced the highest tree cover loss.
