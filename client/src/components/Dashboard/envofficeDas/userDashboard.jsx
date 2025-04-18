@@ -24,15 +24,15 @@ const EnvDashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState(<AirQuality />);
 
     const menuItems = [
-        { text: 'Notifications', component: <Notifications /> },
-        { text: 'Air Quality', component: <AirQuality /> },//MultiLocationAQI4
-        { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
-        { text: 'Incident List', component: <EnvUpdateIncident /> },
-        { text: 'Resource Management', component: <OfficerResourcePage /> },
-        { text: 'GreenInitiativePage', component: <AdminInitiativePage /> },
-        { text: 'polution-complaince', component: <PollutionComplianceTable /> },
-        { text: 'AddGreenInitiative', component: <GreenInitiativeForm /> },
-        { text: 'Add Quizes ', component: <AdminAddQuiz /> }];
+            { text: 'Notifications', component: <Notifications /> },
+            { text: 'Air Quality', component: <AirQuality /> },//MultiLocationAQI4
+            { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
+            { text: 'Incident List', component: <EnvUpdateIncident /> },
+            { text: 'Resource Management', component: <OfficerResourcePage /> },
+            { text: 'GreenInitiativePage', component: <AdminInitiativePage /> },
+            { text: 'polution-complaince', component: <PollutionComplianceTable /> },
+            { text: 'AddGreenInitiative', component: <GreenInitiativeForm /> },
+            { text: 'Add Quizes ', component: <AdminAddQuiz /> }];
 
     return (
         <Container fluid>

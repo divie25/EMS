@@ -50,15 +50,8 @@ function App() {
         <Route path="dashboard" element={<UserDashboard />} />
         <Route path="/analytics" element={<MainWeather />} />
         <Route path="/allquizzes" element={<AllQuizzes />} />
-
-
-
-
-
-        
-        
         <Route path="takequiz/:id" element={<TakeQuiz />} /> 
-        
+
         {/* Environmental Officer Routes */}
         <Route path="/environmentofficer">
           <Route path="register" element={<EnvOfficeRegister />} />
@@ -74,7 +67,6 @@ function App() {
 
         <Route path="Awareness" element={<EnvironmentalDashboard />} />
         <Route path="Treecoverloss" element={<TreeCoverLossModule/>}/>  
-
         
         <Route path="/add-polution-complaince" element={<PollutionComplianceForm />} />
         <Route path="/polution-complaince" element={<PollutionComplianceTable />} />
@@ -84,7 +76,6 @@ function App() {
 
         <Route path="/AdminInitiativePage" element={<AdminInitiativePage />} />
         
-
       </Routes>
     </BrowserRouter>
   );
