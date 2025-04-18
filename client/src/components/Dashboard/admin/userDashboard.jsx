@@ -29,7 +29,7 @@ const AdminDashboard = () => {
         { text: 'Parks', component: <Parks /> },
         { text: 'Forests', component: <ForestResources /> },
         { text: 'Videos', component: <Videos /> },
-        { text: 'Quizzes', component: <Quizzes /> }
+        { text: 'Add Quizes ', component: <AdminAddQuiz /> }
     ];
 
     return (

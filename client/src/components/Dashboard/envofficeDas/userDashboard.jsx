@@ -17,6 +17,7 @@ import { Col, Row } from 'react-bootstrap';
 import MultiLocationAQI from '../../EnvironmentalData/Multilocation';
 import EnvUpdateIncident from '../../IncidentReporting/envupdateIncidents';
 import OfficerResourcePage from '../../ResourceManagement/offiecerResourcepage';
+import AdminAddQuiz from '../../quize/quizeadmin';
 
 
 const EnvDashboard = () => {
@@ -27,8 +28,8 @@ const EnvDashboard = () => {
         { text: 'Air Quality', component: <AirQuality /> },//MultiLocationAQI4
         { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
         { text: 'Incident List', component: <EnvUpdateIncident /> },
-        { text: 'Resource Management', component: <OfficerResourcePage /> }
-    ];
+        { text: 'Resource Management', component: <OfficerResourcePage /> },
+        { text: 'Add Quizes ', component: <AdminAddQuiz /> }];
 
     return (
         <Container fluid>

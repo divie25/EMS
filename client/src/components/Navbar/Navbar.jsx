@@ -11,11 +11,18 @@ const navItems = [
   { path: '/analytics', label: 'Analytics' },
   { path: '/Treecoverloss', label: 'Treecoverloss' },
   { path: '/Awareness', label: 'Awareness' },
-  { path: '/allquizzes', label: 'Quizzes' },
+  
+  ,
   {path:user?.role === "admin" ? "/admin/dashboard" : user?.role === "envofficer" ? "/environmentofficer/dashboard" :user?.role==="public"? "/dashboard":"/", label:user?"Dashboard":""}  
 ];
 
 
+
+if (user?.role === "admin") {
+  
+}else{
+   navItems.push({ path: '/allquizzes', label: 'Quizzes' })
+}
 
 const userName =user?.username 
 

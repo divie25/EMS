@@ -50,7 +50,6 @@ function App() {
         <Route path="/environmentofficer">
           <Route path="register" element={<EnvOfficeRegister />} />
           <Route path="dashboard" element={<EnvDashboard />} />
-          {/* <Route path="takequiz" element={<TakeQuiz />} />  */}
         </Route>
 
         {/* Admin Routes */}
