@@ -1,55 +1,82 @@
-const GreenInitiative = require('../models/GreenInitiative');
+const GreenInitiative = require("../models/GreenInitiative");
 
-// Create a new green initiative
-exports.createGreenInitiative = async (req, res) => {
-    try {
-        const initiative = new GreenInitiative(req.body);
-        await initiative.save();
-        res.status(201).json(initiative);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+exports.addInitiative = async (req, res) => {
+  try {
+    // Handle the files from the uploaded images
+    const images = req.files.map(file => file.path); // Store file paths or URLs if you're uploading to a cloud storage
+    
+    // Create a new GreenInitiative instance
+    const newInitiative = new GreenInitiative({
+      ...req.body,
+      images: images // Store the image paths in your initiative
+    });
+
+    // Save the new initiative
+    await newInitiative.save();
+    
+    res.status(201).json(newInitiative); // Return the saved initiative
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-// Get all green initiatives
-exports.getGreenInitiatives = async (req, res) => {
-    try {
-        const initiatives = await GreenInitiative.find();
-        res.status(200).json(initiatives);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+
+exports.getAllInitiatives = async (req, res) => {
+  const initiatives = await GreenInitiative.find();
+  res.json(initiatives);
 };
 
-// Get a specific green initiative by ID
-exports.getGreenInitiativeById = async (req, res) => {
-    try {
-        const initiative = await GreenInitiative.findById(req.params.id);
-        if (!initiative) return res.status(404).json({ message: 'Initiative not found' });
-        res.status(200).json(initiative);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
 
-// Update a green initiative
-exports.updateGreenInitiative = async (req, res) => {
-    try {
-        const initiative = await GreenInitiative.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!initiative) return res.status(404).json({ message: 'Initiative not found' });
-        res.status(200).json(initiative);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
 
-// Delete a green initiative
-exports.deleteGreenInitiative = async (req, res) => {
-    try {
-        const initiative = await GreenInitiative.findByIdAndDelete(req.params.id);
-        if (!initiative) return res.status(404).json({ message: 'Initiative not found' });
-        res.status(204).send();
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+exports.DeleteInitiatives = async (req, res) => {
+  const initiatives = await GreenInitiative.findByIdAndDelete(req.params.id);
+  res.json(initiatives);
+};
+exports.UpdateInitiatives = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Destructure body data
+    const {
+      initiativeName,
+      organization,
+      type,
+      description,
+      impact,
+      date,
+      location
+    } = req.body;
+
+    const updatedData = {
+      initiativeName,
+      organization,
+      type,
+      description,
+      impact,
+      date,
+      location
+    };
+
+    // If images are uploaded
+    if (req.files && req.files.length > 0) {
+      updatedData.images = req.files.map(file => file.filename); // or file.path if using full path
     }
+
+    const updatedInitiative = await GreenInitiative.findByIdAndUpdate(id, updatedData, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!updatedInitiative) {
+      return res.status(404).json({ message: "Initiative not found" });
+    }
+
+    res.json({
+      message: "Initiative updated successfully",
+      data: updatedInitiative
+    });
+  } catch (error) {
+    console.error("Update Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };

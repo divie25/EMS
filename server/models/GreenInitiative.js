@@ -1,44 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const greenInitiativeSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
-    location: {
-        type: String,
-        required: true
-    },
-    participants: {
-        type: Number,
-        default: 0
-    },
-    impactMetrics: {
-        treesPlanted: {
-            type: Number,
-            default: 0
-        },
-        wasteCollected: {
-            type: Number,
-            default: 0
-        },
-        communityEngagement: {
-            type: Number,
-            default: 0
-        }
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+  initiativeName: String,
+  organization: String,
+  type: { type: String, enum: ['Tree Planting', 'Recycling', 'Renewable Energy', 'Awareness Campaign', 'Other'] },
+  description: String,
+  impact: String, // e.g., "500 trees planted"
+  images: [String], // Optional proof
+  date: Date,
+  location:String,
+  createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('GreenInitiative', greenInitiativeSchema);
+module.exports = mongoose.model("GreenInitiative", greenInitiativeSchema);

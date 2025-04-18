@@ -42,6 +42,8 @@ import MultiLocationAQI from '../../EnvironmentalData/Multilocation';
 import WaterBodies from '../../ResourceManagement/ForestResources';
 import ForestResources from '../../ResourceManagement/ForestResources';
 import UserResourcePage from '../../ResourceManagement/userresourcepage';
+import PollutionComplianceForm from '../../pollutionControll/AddComplaince';
+import GreenInitiativeList from '../../GreenInitiatives/greenInitativelist';
 
 
 const UserDashboard = () => {
@@ -53,7 +55,9 @@ const UserDashboard = () => {
         { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
         { text: 'Report Incident', component: <ReportIncident /> },
         { text: 'Incident List', component: <IncidentList /> },
-        { text: 'Forests', component: <ForestResources /> },
+        { text: 'Forests', component: <ForestResources /> },//add-polution-complaince green-initiative-list
+        { text: 'add-polution-complaince', component: <PollutionComplianceForm /> },
+        { text: 'green-initiatives', component: <GreenInitiativeList /> },
         { text: 'Recycling Centers', component: <RecyclingCenters /> },
         { text: 'Parks', component: <Parks /> },
         { text: 'Articles', component: <Articles /> },

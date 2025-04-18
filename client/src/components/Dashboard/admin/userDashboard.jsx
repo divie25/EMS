@@ -14,6 +14,9 @@ import MultiLocationAQI from '../../EnvironmentalData/Multilocation';
 import EnvUpdateIncident from '../../IncidentReporting/envupdateIncidents';
 import AdminResourcePage from '../../ResourceManagement/AdminResourcepage';
 import ForestResources from '../../ResourceManagement/ForestResources';
+import AdminInitiativePage from '../../GreenInitiatives/AdminGreenIniativepage';
+import GreenInitiativeForm from '../../GreenInitiatives/GreenInitiativeForm';
+import PollutionComplianceTable from '../../pollutionControll/viewandupdate';
 
 
 const AdminDashboard = () => {
@@ -26,6 +29,9 @@ const AdminDashboard = () => {
         { text: 'Report Incident', component: <ReportIncident /> },
         { text: 'Incident List', component: <EnvUpdateIncident /> },
         { text: 'Resource management', component: <AdminResourcePage /> },
+        { text: 'GreenInitiativePage', component: <AdminInitiativePage /> },
+        { text: 'polution-complaince', component: <PollutionComplianceTable /> },
+        { text: 'AddGreenInitiative', component: <GreenInitiativeForm /> },
         { text: 'Parks', component: <Parks /> },
         { text: 'Forests', component: <ForestResources /> },
         { text: 'Videos', component: <Videos /> },

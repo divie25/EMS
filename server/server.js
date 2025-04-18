@@ -31,6 +31,7 @@ app.use('/api/incidents', incidentRoutes);
 app.use('/api/resources', resourceRoutes);
 app.use('/api/waste', wasteRoutes);
 app.use('/api/green-initiatives', greenInitiativeRoutes);
+app.use('/api/pollution-controlle', require('./routes/pollutionComplianceRoutes') );
 app.use('/api', quizRoutes);
 
 // Start server

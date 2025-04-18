@@ -11,6 +11,8 @@ const navItems = [
   { path: '/analytics', label: 'Analytics' },
   { path: '/Treecoverloss', label: 'Treecoverloss' },
   { path: '/Awareness', label: 'Awareness' },
+  { path: '/add-polution-complaince', label: 'polution-complaince' },
+  
   
   ,
   {path:user?.role === "admin" ? "/admin/dashboard" : user?.role === "envofficer" ? "/environmentofficer/dashboard" :user?.role==="public"? "/dashboard":"/", label:user?"Dashboard":""}  

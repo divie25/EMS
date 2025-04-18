@@ -29,6 +29,9 @@ const EnvDashboard = () => {
         { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
         { text: 'Incident List', component: <EnvUpdateIncident /> },
         { text: 'Resource Management', component: <OfficerResourcePage /> },
+        { text: 'GreenInitiativePage', component: <AdminInitiativePage /> },
+        { text: 'polution-complaince', component: <PollutionComplianceTable /> },
+        { text: 'AddGreenInitiative', component: <GreenInitiativeForm /> },
         { text: 'Add Quizes ', component: <AdminAddQuiz /> }];
 
     return (

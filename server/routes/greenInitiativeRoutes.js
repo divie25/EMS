@@ -1,21 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const greenInitiativeController = require('../controllers/greenInitiativeController');
-const authMiddleware = require('../middleware/authMiddleware');
+const controller = require("../controllers/greenInitiativeController");
+const upload2 = require("../middleware/multer2");
 
-// Route to create a new green initiative
-router.post('/', authMiddleware.authMiddleware, greenInitiativeController.createGreenInitiative);
+router.post("/add",upload2.array("images", 5), controller.addInitiative);
 
-// Route to get all green initiatives
-router.get('/', greenInitiativeController.getGreenInitiatives);
+// http://localhost:5000/api/green-initiatives/add
 
-// Route to get a specific green initiative by ID
-router.get('/:id', greenInitiativeController.getGreenInitiativeById);
-
-// Route to update a green initiative by ID
-router.put('/:id', authMiddleware.authMiddleware, greenInitiativeController.updateGreenInitiative);
-
-// Route to delete a green initiative by ID
-router.delete('/:id', authMiddleware.authMiddleware, greenInitiativeController.deleteGreenInitiative);
+router.get("/all", controller.getAllInitiatives);
+router.delete("/:id", controller.DeleteInitiatives);
+router.put("/:id", controller.UpdateInitiatives);
 
 module.exports = router;
