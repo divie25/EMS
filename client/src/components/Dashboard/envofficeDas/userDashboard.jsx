@@ -18,6 +18,8 @@ import MultiLocationAQI from '../../EnvironmentalData/Multilocation';
 import EnvUpdateIncident from '../../IncidentReporting/envupdateIncidents';
 import OfficerResourcePage from '../../ResourceManagement/offiecerResourcepage';
 import AdminAddQuiz from '../../quize/quizeadmin';
+import AdminInitiativePage from '../../GreenInitiatives/AdminGreenIniativepage';
+import PollutionComplianceTable from '../../pollutionControll/viewandupdate';
 
 
 const EnvDashboard = () => {

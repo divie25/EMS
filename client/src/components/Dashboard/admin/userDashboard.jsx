@@ -17,6 +17,7 @@ import ForestResources from '../../ResourceManagement/ForestResources';
 import AdminInitiativePage from '../../GreenInitiatives/AdminGreenIniativepage';
 import GreenInitiativeForm from '../../GreenInitiatives/GreenInitiativeForm';
 import PollutionComplianceTable from '../../pollutionControll/viewandupdate';
+import AdminAddQuiz from '../../quize/quizeadmin';
 
 
 const AdminDashboard = () => {

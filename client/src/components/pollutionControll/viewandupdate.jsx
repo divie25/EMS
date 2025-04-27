@@ -66,16 +66,39 @@ const PollutionComplianceTable = () => {
 
   const exportToPDF = () => {
     const doc = new jsPDF();
-    doc.setFontSize(14);
-    doc.text("Pollution Compliance Report", 20, 20);
-
+    doc.setFontSize(18);
+    doc.text("Pollution Compliance Report", 105, 15, null, null, "center");
+  
     let y = 30;
     filteredData.forEach((item, index) => {
-      doc.text(`\n${index + 1}. ${item.entityName} | ${item.industryType} | ${item.complianceStatus}`, 20, y);
-      y += 10;
+      // Draw a box
+      doc.setDrawColor(0);
+      doc.setFillColor(240, 240, 240);
+      doc.rect(10, y - 5, 190, 50, "F");
+  
+      // Content inside the box
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
+  
+      doc.text(`Entity Name: ${item.entityName}`, 15, y);
+      doc.text(`Industry Type: ${item.industryType}`, 15, y + 8);
+      doc.text(`Location: ${item.location}`, 15, y + 16);
+      doc.text(`Compliance Status: ${item.complianceStatus}`, 15, y + 24);
+      doc.text(`Last Inspection: ${item.lastInspectionDate?.slice(0, 10) || "N/A"}`, 15, y + 32);
+      doc.text(`Next Inspection: ${item.nextInspectionDate?.slice(0, 10) || "N/A"}`, 15, y + 40);
+      doc.text(`Notes: ${item.notes || "N/A"}`, 105, y + 8);
+  
+      y += 60;
+  
+      if (y > 270) { // Start new page if beyond limit
+        doc.addPage();
+        y = 30;
+      }
     });
+  
     doc.save("PollutionCompliance.pdf");
   };
+  
 
   const handleDocClick = (docs) => {
     setDocDialog({ open: true, docs, index: 0 });
