@@ -5,12 +5,6 @@ import AirQuality from '../../EnvironmentalData/AirQuality';
 import ReportIncident from '../../IncidentReporting/ReportIncident';
 import IncidentList from '../../IncidentReporting/IncidentList';
 
-
-
-
-
-
-
 import React, { useState } from 'react';
 import { Container, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Box } from '@mui/material';
 import { Col, Row } from 'react-bootstrap';
