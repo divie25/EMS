@@ -7,10 +7,6 @@ import Homepage from './page/home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
 
-
-
-
-
 // Admin & Officer Registration
 import EnvOfficeRegister from './components/Auth/envOffficer/envofficer';
 import AdminRegister from './components/Auth/admin/adminregister';
@@ -19,12 +15,9 @@ import UserDashboard from './components/Dashboard/user/userDashboard';
 import EnvDashboard from './components/Dashboard/envofficeDas/userDashboard';
 import AdminDashboard from './components/Dashboard/admin/userDashboard';
 import CustomNavbar from './components/Navbar/Navbar';
-import ResourceForm from './components/ResourceManagement/Resourceform';
-import UserResourcePage from './components/ResourceManagement/userresourcepage';
-import AdminResourcePage from './components/ResourceManagement/AdminResourcepage';
-import OfficerResourcePage from './components/ResourceManagement/offiecerResourcepage';
+
 import MainWeather from './components/weather/api/Main';
-import TreeCoverDashboard from './components/greenInitative/greenDashboard';
+
 import TreeCoverLossModule from './components/greenInitative/treelast';
 import EnvironmentalDashboard from './components/EnvironmentNews/environmentnews';
 import AdminAddQuiz from './components/quize/quizeadmin';

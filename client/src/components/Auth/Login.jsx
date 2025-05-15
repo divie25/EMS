@@ -25,16 +25,16 @@ const Login = () => {
             localStorage.setItem("user",JSON.stringify(response.data.user))
              
             if(response.data.user.role==="environmental_officer"){
-              window.location.reload()
                 navigate('/environmentofficer/dashboard');
+                window.location.reload()
 
             }else if (response.data.user.role==="admin"){
-                window.location.reload()
                 navigate('/admin/dashboard');
+                window.location.reload()
 
             }else{
-                window.location.reload()
                 navigate('/dashboard');
+                window.location.reload()
             }
 
 

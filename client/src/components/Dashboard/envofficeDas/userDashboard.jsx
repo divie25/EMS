@@ -20,7 +20,6 @@ const EnvDashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState(<AirQuality />);
 
     const menuItems = [
-            { text: 'Notifications', component: <Notifications /> },
             { text: 'Air Quality', component: <AirQuality /> },//MultiLocationAQI4
             { text: 'MultiLocationAQI4', component: <MultiLocationAQI /> },
             { text: 'Incident List', component: <EnvUpdateIncident /> },
